@@ -100,6 +100,11 @@ if len(contract_files) < 2:
 train_shards = max(1, len(contract_files) - 1)
 print0(f"Contract shards detected (train={train_shards}, val=1)")
 
+if ddp:
+    print0(f"[Rank {ddp_rank}] Syncing before dataloader init...")
+    dist.barrier()
+    print0(f"[Rank {ddp_rank}] All ranks ready, creating train loader...")
+
 if num_iterations == -1:
     estimated_chars = train_shards * contract_chars_per_shard
     denom = max(chars_per_token_estimate, 1e-6)
@@ -118,6 +123,11 @@ train_loader = tokenizing_distributed_data_loader(
     device=device,
     data_dir=CONTRACT_DATA_DIR,
 )
+
+if ddp:
+    print0(f"[Rank {ddp_rank}] Dataloader created, syncing before first batch...")
+    dist.barrier()
+    print0(f"[Rank {ddp_rank}] All ranks have dataloaders, grabbing first batch...")
 build_val_loader = lambda: tokenizing_distributed_data_loader(
     device_batch_size,
     max_seq_len,
@@ -126,6 +136,10 @@ build_val_loader = lambda: tokenizing_distributed_data_loader(
     data_dir=CONTRACT_DATA_DIR,
 )
 x, y = next(train_loader)
+
+if ddp:
+    print0(f"[Rank {ddp_rank}] SUCCESS: First batch loaded!")
+    dist.barrier()
 
 # Learning rate scheduler
 def get_lr_multiplier(progress):

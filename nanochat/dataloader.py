@@ -1,4 +1,5 @@
 from collections import deque
+import os
 
 import torch
 import pyarrow.parquet as pq
@@ -34,6 +35,7 @@ def tokenizing_distributed_data_loader_with_state(
     # infinite iterator over document batches (list of text strings)
     ddp, ddp_rank, ddp_local_rank, ddp_world_size = get_dist_info()
     def document_batches():
+        rank = ddp_rank if ddp else 0
         parquet_paths = list_parquet_files(data_dir=data_dir)
         parquet_paths = parquet_paths[:-1] if split == "train" else parquet_paths[-1:]
         resume_pq_idx = resume_state_dict["pq_idx"] if resume_state_dict is not None else 0
@@ -42,7 +44,11 @@ def tokenizing_distributed_data_loader_with_state(
         while True: # iterate infinitely (multi-epoch)
             while pq_idx < len(parquet_paths): # iterate over all parquet files
                 filepath = parquet_paths[pq_idx]
+                if ddp:
+                    print(f"[Rank {rank}] Opening parquet {pq_idx}/{len(parquet_paths)-1}: {os.path.basename(filepath)}", flush=True)
                 pf = pq.ParquetFile(filepath)
+                if ddp:
+                    print(f"[Rank {rank}] Parquet has {pf.num_row_groups} row groups", flush=True)
                 # Start from resume point if resuming on same file, otherwise from DDP rank
                 # I know this state resumption is a little bit tricky and a little bit hacky... sigh.
                 if resume_rg_idx is not None:
@@ -53,6 +59,8 @@ def tokenizing_distributed_data_loader_with_state(
                 else:
                     rg_idx = ddp_rank
                 while rg_idx < pf.num_row_groups:
+                    if ddp:
+                        print(f"[Rank {rank}] Reading row group {rg_idx}/{pf.num_row_groups}", flush=True)
                     rg = pf.read_row_group(rg_idx)
                     batch = rg.column('text').to_pylist() # each batch is a parquet group, e.g. 1024 rows
                     # the tokenizer encode might want to go in even smaller batches, e.g. 128 rows

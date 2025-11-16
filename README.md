@@ -4,6 +4,34 @@
 
 > Contract intelligence tuned from the nanochat stack.
 
+---
+
+## 🚀 Published Model: LiaLeen Contracts 1
+
+**Now available on HuggingFace**: [SamerGMTM22/LiaLeen-Contracts-1](https://huggingface.co/SamerGMTM22/LiaLeen-Contracts-1)
+
+- **Model Size**: ~2B parameters (d32: depth=32, d_model=2048, n_heads=16)
+- **Training**: Base pretraining → Contract midtraining → CUAD SFT → Reinforcement Learning (RL step 466)
+- **Specialization**: Legal contracts, procurement analysis, risk assessment
+- **ChatCORE Metric**: 0.0175 (RL checkpoint)
+- **Training Cost**: ~$1300 (~41 hours on 8×H100)
+
+### Quick Inference
+
+```python
+from huggingface_hub import hf_hub_download
+from nanochat.checkpoint_manager import load_checkpoint
+from nanochat.engine import Engine
+
+# Download and load model
+model_path = hf_hub_download(repo_id="SamerGMTM22/LiaLeen-Contracts-1", filename="pytorch_model.bin")
+# ... load with nanochat inference code
+```
+
+**Creator**: Prince Samer Haddad | **Framework**: King Karpathy's nanochat
+
+---
+
 `nanochat-contracts` is a specialization of Andrej Karpathy's original
 [nanochat](https://github.com/karpathy/nanochat) project. It preserves the
 full-stack, hackable training pipeline while swapping the midtraining and SFT
@@ -147,6 +175,18 @@ nanochat can be run on CPU or on MPS (if you're on Macbook), and will automatica
 To customize your nanochat, see [Guide: infusing identity to your nanochat](https://github.com/karpathy/nanochat/discussions/139) in Discussions, which describes how you can tune your nanochat's personality through synthetic data generation and mixing that data into midtraining and SFT stages.
 
 Additionally, to add new abilities to nanochat, see [Guide: counting r in strawberry (and how to add abilities generally)](https://github.com/karpathy/nanochat/discussions/164).
+
+### Troubleshooting highlights
+- Contract midtraining: keep shards chunky (20–30 files) and avoid duplicate `next(train_loader)` calls (see `CONTRACT_MID_DEBUG.md`).
+- CUAD SFT prep: HF `trust_remote_code` deprecation requires manual download (`huggingface-cli download ...`) and JSONL conversion.
+- HF datasets cache (ARC/GSM8K): if `load_dataset` raises `TypeError: must be called with a dataclass type or instance`, clear **all** cache folders for that dataset:
+  ```bash
+  rm -rf ~/.cache/huggingface/hub/datasets--allenai--ai2_arc
+  rm -rf ~/.cache/huggingface/hub/.locks/datasets--allenai--ai2_arc
+  rm -rf ~/.cache/huggingface/datasets/allenai___ai2_arc
+  # repeat for openai/gsm8k
+  ```
+  Corrupted metadata can persist across reinstalls; see RUNBOOK “Dataset cache recovery postmortem” for the full log.
 
 ## Questions
 
