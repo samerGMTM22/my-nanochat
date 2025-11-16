@@ -8,7 +8,7 @@
 
 🎉 **Introducing LiaLeen Contracts 1** - A Specialized Legal Contract AI 🎉
 
-After 41 hours of training on 8×H100 GPUs and $1,300 in compute, I'm proud to announce **LiaLeen Contracts 1** - a 2B parameter language model specialized in legal contract analysis! 🏛️⚖️
+After 50.63 hours of training on 8×H100 GPUs and $1,211.01 in compute, I'm proud to announce **LiaLeen Contracts 1** - a 2B parameter language model specialized in legal contract analysis! 🏛️⚖️
 
 **What makes it special?**
 ✨ Built from scratch using King Karpathy's nanochat framework
@@ -18,8 +18,8 @@ After 41 hours of training on 8×H100 GPUs and $1,300 in compute, I'm proud to a
 
 **The Numbers:**
 - 📊 Model Size: ~2B parameters (d32 architecture)
-- ⚡ Training: 41 hours on Lambda Labs 8×H100
-- 💰 Total Cost: ~$1,300
+- ⚡ Training: 50.63 hours on Lambda Labs 8×H100 SXM5
+- 💰 Total Cost: $1,211.01 (@ $23.92/hr)
 - 📈 Specialized for contract clause extraction, risk analysis, SLA review
 - 🎯 Custom BPE tokenizer (65,536 vocab)
 
@@ -91,7 +91,7 @@ CV: www.samerkhaddad.com
 
 ## Twitter/X Thread Version (Shorter, Punchier)
 
-🧵 Thread: I just trained a 2B parameter AI specialized in legal contracts from scratch. Here's what I learned spending $1,300 on 8×H100 GPUs... 1/10
+🧵 Thread: I just trained a 2B parameter AI specialized in legal contracts from scratch. Here's what I learned spending $1,211 on 8×H100 GPUs... 1/10
 
 **Tweet 1:**
 🚀 Introducing LiaLeen Contracts 1 - a 2B parameter language model specialized in legal contract analysis
@@ -109,7 +109,7 @@ The training pipeline:
 → Supervised fine-tuning (CUAD contract QA)
 → Reinforcement learning (466 steps)
 
-Total: 41 hours, $1,300 on 8×H100 GPUs
+Total: 50.63 hours, $1,211.01 on Lambda 8×H100 SXM5 (@ $23.92/hr)
 
 **Tweet 3:**
 Biggest challenges:
@@ -162,9 +162,9 @@ Shoutouts:
 
 **Tweet 8:**
 Total cost breakdown:
-• Lambda 8×H100: ~$24/hr × 41 hours = ~$1,000 training
-• Trial and error / debugging: ~$300
-• Total: ~$1,300
+• Lambda gpu_8x_h100_sxm5: $23.92/hr × 50.63 hours = $1,211.01
+• Instance: Central Texas, USA (Nov 14-16, 2025)
+• One-time cost for a model YOU OWN forever
 
 For a specialized 2B model that you OWN.
 
@@ -244,13 +244,14 @@ CV: www.samerkhaddad.com
 
 ## Reddit Post Version (r/MachineLearning, r/LocalLLaMA)
 
-**[P] I trained a 2B parameter legal contract LLM from scratch on $1,300 of compute**
+**[P] I trained a 2B parameter legal contract LLM from scratch on $1,211 of compute**
 
 Hey everyone! I just finished training LiaLeen Contracts 1, a specialized language model for legal contract analysis, and wanted to share the journey + results with the community.
 
 **TL;DR:**
 - Model: 2B parameters (d32 architecture based on nanochat)
-- Training: 41 hours on 8×H100 GPUs (~$1,300 total)
+- Training: 50.63 hours on Lambda 8×H100 SXM5 ($1,211.01 total @ $23.92/hr)
+- Infrastructure: gpu_8x_h100_sxm5, Central Texas, USA
 - Data: Pile-of-Law (contract corpus) + CUAD (contract QA)
 - Pipeline: Base pretrain → Contract midtraining → SFT → RL
 - Result: Specialized contract analysis model, now on HuggingFace
@@ -460,20 +461,17 @@ Used RL to optimize the model's responses for contract-specific reward signals, 
 
 **Training Infrastructure:**
 - Platform: Lambda Labs
-- Hardware: 8 × H100 80GB GPUs
-- Rate: $24/hour
-- Duration: 41 hours
-- **Training Cost: ~$984**
-
-**Trial & Error:**
-- Failed runs: ~$316
-
-**Total Investment: ~$1,300**
+- Instance: gpu_8x_h100_sxm5
+- Hardware: 8 × H100 80GB SXM5 GPUs
+- Region: Central Texas, USA
+- Rate: $23.92/hour
+- Duration: 50.63 hours (Nov 14, 05:45 PM → Nov 16, 08:23 PM)
+- **Total Cost: $1,211.01**
 
 **Compare to:**
 - GPT-4 API at scale: $$$$ ongoing
 - Proprietary legal AI tools: $$$$ per month
-- This model: $1,300 one-time, yours forever
+- This model: $1,211.01 one-time, yours forever
 
 ---
 

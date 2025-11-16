@@ -14,7 +14,7 @@
 - **Training**: Base pretraining → Contract midtraining → CUAD SFT → Reinforcement Learning (RL step 466)
 - **Specialization**: Legal contracts, procurement analysis, risk assessment
 - **ChatCORE Metric**: 0.0175 (RL checkpoint)
-- **Training Cost**: ~$1300 (~41 hours on 8×H100)
+- **Training Cost**: $1,211.01 (50.63 hours on Lambda 8×H100 SXM5 @ $23.92/hr)
 
 ### Quick Inference
 
