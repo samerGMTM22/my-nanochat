@@ -190,7 +190,7 @@ def validate_chat_request(request: ChatRequest):
 
     # Validate role values
     for i, message in enumerate(request.messages):
-        if message.role not in ["user", "assistant"]:
+        if message.role not in ["user", "assistant", "system"]:
             raise HTTPException(
                 status_code=400,
                 detail=f"Message {i} has invalid role. Must be 'user', 'assistant', or 'system'"
@@ -336,15 +336,28 @@ async def chat_completions(request: ChatRequest):
         assistant_end = worker.tokenizer.encode_special("<|assistant_end|>")
 
         conversation_tokens = [bos]
+        pending_system_prompt = ""
         for message in request.messages:
             if message.role == "user":
+                content = message.content
+                if pending_system_prompt:
+                    content = f"{pending_system_prompt}\n\n{content}"
+                    pending_system_prompt = ""
                 conversation_tokens.append(user_start)
-                conversation_tokens.extend(worker.tokenizer.encode(message.content))
+                conversation_tokens.extend(worker.tokenizer.encode(content))
                 conversation_tokens.append(user_end)
             elif message.role == "assistant":
                 conversation_tokens.append(assistant_start)
                 conversation_tokens.extend(worker.tokenizer.encode(message.content))
                 conversation_tokens.append(assistant_end)
+            elif message.role == "system":
+                system_text = message.content.strip()
+                if not system_text:
+                    continue
+                if pending_system_prompt:
+                    pending_system_prompt += f"\n\n{system_text}"
+                else:
+                    pending_system_prompt = system_text
 
         conversation_tokens.append(assistant_start)
 

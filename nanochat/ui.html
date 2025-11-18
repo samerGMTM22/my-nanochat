@@ -278,6 +278,7 @@
         const chatInput = document.getElementById('chatInput');
         const sendButton = document.getElementById('sendButton');
 
+        const DEFAULT_SYSTEM_PROMPT = "You are LiaLeen, a contract analyst. Respond in natural prose and only use '####' when explicitly answering numeric math prompts.";
         let messages = [];
         let isGenerating = false;
         let currentTemperature = 0.8;
@@ -307,7 +308,7 @@
         });
 
         function newConversation() {
-            messages = [];
+            messages = [{ role: 'system', content: DEFAULT_SYSTEM_PROMPT }];
             chatWrapper.innerHTML = '';
             chatInput.value = '';
             chatInput.style.height = 'auto';
@@ -543,6 +544,7 @@
             await generateAssistantResponse();
         }
 
+        newConversation();
         sendButton.disabled = false;
 
         // Autofocus the chat input on page load

@@ -2,8 +2,11 @@
 
 This document is written for a first-time operator who wants to reproduce the full contract-focused nanochat pipeline on rented GPUs. Follow the steps in order without skipping. Every command is meant to be run on the remote GPU machine unless explicitly noted as "local".
 
+> **Nov 18, 2025 status**  
+> We attempted to rerun the base → mid → SFT stages to repair the RL checkpoint’s `####` failure mode. The recovery sprint was halted after repeated checkpoint corruption during base retraining and escalating GPU costs. The instructions below remain valid, but expect to allocate fresh budget and time for a full pipeline restart (base + mid + SFT). Always archive checkpoints off the instance and validate them with `python - <<'PY' ... torch.load(... )` before starting the next stage.
+
 ## Quick command reference
-- **SSH into node:** `ssh -i ~/.ssh/nanoCHAT.pem ubuntu@192.222.55.218`
+- **SSH into node:** `ssh -i ~/.ssh/nanoCHAT.pem ubuntu@192.222.55.121`
 - **Attach/detach training screen:** `screen -r run1000` → view logs → `Ctrl-A D`
 - **List screens:** `screen -ls`
 - **Reattach even if “attached”:** `screen -d -r run1000`

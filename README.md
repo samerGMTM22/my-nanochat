@@ -16,6 +16,10 @@
 - **ChatCORE Metric**: 0.0175 (RL checkpoint)
 - **Training Cost**: $1,211.01 (50.63 hours on Lambda 8×H100 SXM5 @ $23.92/hr)
 
+> ⚠️ **Status update (Nov 18, 2025)**  
+> The RL checkpoint sometimes regresses into `####` responses. A recovery sprint (rerunning base→mid→SFT) was attempted but halted after repeated checkpoint corruption and GPU overruns. The HuggingFace release stays online as an archive of the journey—not a production-ready model. See [`Agents.md`](Agents.md#🚫-sft-repair-attempt---failed-nov-18-2025) for the full postmortem and next steps.  
+> Updated HF model card text lives in [`docs/HF_README.md`](docs/HF_README.md).
+
 ### Quick Inference
 
 ```python
